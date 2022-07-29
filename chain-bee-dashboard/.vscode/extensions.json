@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "ms-vscode.vscode-typescript-next",
     "bradlc.vscode-tailwindcss",
-    "csstools.postcss"
+    "csstools.postcss",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

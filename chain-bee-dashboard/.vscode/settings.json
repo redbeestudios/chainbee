@@ -1,13 +1,34 @@
 {
-  "files.eol": "\n",
+  "files.eol": "\n", // Always use LF (windows may still use CRLF)
+
+  // Preffer linting with pritter ---------------------------------------------
+
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // --------------------------------------------------------------------------
+
   "editor.quickSuggestions": {
-    "strings": true
-  }
+    "strings": true // Tailwind intelisence won't work without this
+  },
+
+
+  // Custom dictionary for spell check plugin
+  "cSpell.words": [
+    "Chainbee"
+  ]
 }
