@@ -29,6 +29,7 @@
 
   // Custom dictionary for spell check plugin
   "cSpell.words": [
-    "Chainbee"
+    "Chainbee",
+    "tailwindcss"
   ]
 }
