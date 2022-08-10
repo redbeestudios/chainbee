@@ -1,40 +1,44 @@
-import { useCallback, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import { BehaviorSubject, EMPTY, fromEvent, map } from 'rxjs';
 import Node from './node/node';
-
-let handleMouseMove = (e: MouseEvent) => {
-  e;
-};
+import NodeContext from './node/node-context';
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [nodePosition, setNodePosition] = useState({ x: 100, y: 100 });
 
-  const startTrackingMouse = useCallback(
-    (mousePositionOnNode: { x: number; y: number }) => {
-      handleMouseMove = (event: MouseEvent) => {
-        setNodePosition({
-          x: event.clientX - (mousePositionOnNode.x - nodePosition.x),
-          y: event.clientY - (mousePositionOnNode.y - nodePosition.y),
-        });
-      };
-      containerRef?.current?.addEventListener('mousemove', handleMouseMove);
-    },
-    [nodePosition.x, nodePosition.y],
-  );
-
-  const stopTrackingMouse = useCallback(() => {
-    containerRef?.current?.removeEventListener('mousemove', handleMouseMove);
+  const radious = useMemo(() => {
+    return new BehaviorSubject(25);
   }, []);
+
+  const mousePosition$ = useMemo(() => {
+    return containerRef?.current
+      ? fromEvent<MouseEvent>(containerRef.current, 'mousemove').pipe(
+          map((event) => {
+            console.log(event);
+            return { x: event.clientX, y: event.clientY };
+          }),
+        )
+      : EMPTY;
+  }, [containerRef]);
+
+  const node = useMemo(() => {
+    return new NodeContext(
+      { l: 200, r: 700, t: 200, b: 700 },
+      mousePosition$,
+      { x: 400, y: 400 },
+      radious.asObservable(),
+    );
+  }, [mousePosition$, radious]);
+
+  useEffect(() => {
+    mousePosition$.subscribe((position) => {
+      console.log(position);
+    });
+  }, [mousePosition$]);
 
   return (
     <div ref={containerRef} className="w-screen min-h-screen">
-      <Node
-        name="Test Node"
-        posX={nodePosition.x}
-        posY={nodePosition.y}
-        onMouseDown={startTrackingMouse}
-        onMouseUp={stopTrackingMouse}
-      />
+      <Node name="Test Node" node={node} />
     </div>
   );
 }
