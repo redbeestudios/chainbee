@@ -1,23 +1,23 @@
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 export default class NodeContext {
-  readonly radious$: Observable<number>;
-  readonly boundry: { l: number; r: number; t: number; b: number };
+  readonly radius$: Observable<number>;
+  readonly boundary: { l: number; r: number; t: number; b: number };
   readonly position$: Observable<{ x: number; y: number }>;
   private readonly position: BehaviorSubject<{ x: number; y: number }>;
   private currentPosition: { x: number; y: number };
   private readonly mousePosition$: Observable<{ x: number; y: number }>;
-  private mouseSuscription: Subscription = Subscription.EMPTY;
+  private mouseSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
-    boundry: { l: number; r: number; t: number; b: number },
+    boundary: { l: number; r: number; t: number; b: number },
     mousePosition$: Observable<{ x: number; y: number }>,
     position: { x: number; y: number },
-    radious$: Observable<number>,
+    radius$: Observable<number>,
   ) {
-    this.boundry = boundry;
+    this.boundary = boundary;
     this.mousePosition$ = mousePosition$;
-    this.radious$ = radious$;
+    this.radius$ = radius$;
     this.currentPosition = position;
     this.position = new BehaviorSubject(position);
     this.position$ = this.position.asObservable();
@@ -25,23 +25,29 @@ export default class NodeContext {
   changePosition(x: number, y: number) {
     this.currentPosition = { x, y };
     this.position.next(this.currentPosition);
-    console.log(this.currentPosition);
   }
 
   onMouseUp() {
-    this.mouseSuscription?.unsubscribe();
-    console.log('mouseUp');
+    this.mouseSubscription?.unsubscribe();
   }
 
-  onMouseDown({ x, y }: { x: number; y: number }) {
-    this.mouseSuscription = this.mousePosition$.subscribe(
+  onMouseDown({ x: clickedX, y: clickedY }: { x: number; y: number }) {
+    const currentX = this.currentPosition.x;
+    const currentY = this.currentPosition.y;
+
+    this.mouseSubscription = this.mousePosition$.subscribe(
       ({ x: mouseX, y: mouseY }) => {
-        const posX = mouseX - (x - this.currentPosition.x);
-        const posY = mouseY - (y - this.currentPosition.y);
+        const posX = Math.min(
+          Math.max(mouseX - (clickedX - currentX), this.boundary.l),
+          this.boundary.r,
+        );
+        const posY = Math.min(
+          Math.max(mouseY - (clickedY - currentY), this.boundary.t),
+          this.boundary.b,
+        );
 
         this.changePosition(posX, posY);
       },
     );
-    console.log('mouseDown');
   }
 }

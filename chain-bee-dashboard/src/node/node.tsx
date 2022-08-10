@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useObservable } from 'react-use-observable';
 import NodeContext from './node-context';
 
@@ -9,12 +9,15 @@ type NodeProps = {
 
 const Node = ({ name, node }: NodeProps) => {
   const nodeRef = useRef<HTMLDivElement>(null);
-  const [position] = useObservable(() => node.position$, [node]);
+  const [position] = useObservable(() => node.position$, [node.position$]);
+  const [radius] = useObservable(() => node.radius$, [node.radius$]);
+
+  const diameter = useMemo(() => (radius ?? 0) * 2, [radius]);
 
   return (
     <div
       ref={nodeRef}
-      className="relative w-[200px] h-[200px] bg-red-500 rounded-full flex justify-center items-center"
+      className={`relative w-[${diameter}px] h-[${diameter}px] bg-red-500 rounded-full flex flex-col align-middle justify-center items-center`}
       style={{ left: `${position?.x}px`, top: `${position?.y}px` }}
       onMouseDown={(event) => {
         node.onMouseDown({ x: event.clientX, y: event.clientY });
@@ -24,6 +27,9 @@ const Node = ({ name, node }: NodeProps) => {
       }}
     >
       <span className="h-min select-none">{name}</span>
+      <span className="h-min select-none">
+        X:{position?.x} Y:{position?.y}
+      </span>
     </div>
   );
 };
