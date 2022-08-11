@@ -1,18 +1,20 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
+type Boundary = { l: number; r: number; t: number; b: number };
+type Position = { x: number; y: number };
 export default class NodeContext {
   readonly radius$: Observable<number>;
-  readonly boundary: { l: number; r: number; t: number; b: number };
-  readonly position$: Observable<{ x: number; y: number }>;
-  private readonly position: BehaviorSubject<{ x: number; y: number }>;
-  private currentPosition: { x: number; y: number };
-  private readonly mousePosition$: Observable<{ x: number; y: number }>;
+  readonly boundary: Boundary;
+  readonly position$: Observable<Position>;
+  private readonly position: BehaviorSubject<Position>;
+  private currentPosition: Position;
+  private readonly mousePosition$: Observable<Position>;
   private mouseSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
-    boundary: { l: number; r: number; t: number; b: number },
-    mousePosition$: Observable<{ x: number; y: number }>,
-    position: { x: number; y: number },
+    boundary: Boundary,
+    mousePosition$: Observable<Position>,
+    position: Position,
     radius$: Observable<number>,
   ) {
     this.boundary = boundary;
@@ -31,7 +33,7 @@ export default class NodeContext {
     this.mouseSubscription?.unsubscribe();
   }
 
-  onMouseDown({ x: clickedX, y: clickedY }: { x: number; y: number }) {
+  onMouseDown({ x: clickedX, y: clickedY }: Position) {
     const currentX = this.currentPosition.x;
     const currentY = this.currentPosition.y;
 

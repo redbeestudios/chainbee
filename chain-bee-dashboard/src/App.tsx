@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { BehaviorSubject, EMPTY, fromEvent, map } from 'rxjs';
+import { useMemo, useRef } from 'react';
+import { BehaviorSubject } from 'rxjs';
 import useMouseMove from './hooks/use-mouse-move';
 import Node from './node/node';
 import NodeContext from './node/node-context';
