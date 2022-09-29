@@ -15,7 +15,7 @@ const Node = ({ name, node }: NodeProps) => {
 
   return (
     <div
-      className={`relative w-[${diameter}px] h-[${diameter}px] bg-red-500 rounded-full flex flex-col align-middle justify-center items-center`}
+      className={`relative w-[200px] h-[200px] bg-red-500 rounded-full flex flex-col align-middle justify-center items-center`}
       style={{ left: `${position?.x}px`, top: `${position?.y}px` }}
       onMouseDown={(event) => {
         node.onMouseDown({ x: event.clientX, y: event.clientY });
