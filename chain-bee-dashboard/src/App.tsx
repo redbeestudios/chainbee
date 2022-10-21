@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import useMouseMove from './hooks/use-mouse-move';
 import Node from './node/node';
+import Relationship from './relationship/relationship';
 import NodeContext from './node/node-context';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       className="w-screen min-h-screen bg-[url('src/assets/bg-main.jpg')] bg-cover"
     >
       <Node name="Test Node 1" node={node1} />
+      <Relationship />
       <Node name="Test Node 2" node={node2} />
       <Node name="Test Node 3" node={node3} />
     </div>

@@ -1879,6 +1879,14 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
+react-tooltip@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.4.0.tgz#1ca6e1afe07694086ad8b16b7808b80bbe124b23"
+  integrity sha512-+pSsbT1UNZS+ZHAm+yfO9p9skHi11ZWxhfccuEq9oIoU52P09d+nzu1nUTqLn/hP7fUG6t+x6u2BuGKCP8vfRQ==
+  dependencies:
+    prop-types "^15.8.1"
+    uuid "8.3.2"
+
 react-use-observable@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-use-observable/-/react-use-observable-1.0.4.tgz#ccc9ded5aa7b61d7010baf6ba7009f89f4b90627"
@@ -2206,6 +2214,11 @@ util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+uuid@8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
