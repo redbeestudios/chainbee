@@ -102,7 +102,7 @@ services:
       - basic
 
   cli:
-    container_name: cli-capitalHumano
+    container_name: cli
     image: hyperledger/fabric-tools:2.4
     tty: true
     stdin_open: true
