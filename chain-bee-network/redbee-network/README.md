@@ -96,13 +96,13 @@ Si bien cada organización internamente puede contar con Multiples peers... a la
 
 Listo.. tenemos una red Levantada!
 
-##Crear Canal
+## Crear Canal
 
 Entrar a la consola de la cli
 
 	export CHANNEL_NAME=chainbee
 
-	peer channel create -o orderer.redbee.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls false --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/redbee.com/msp/tlscacerts/tlsca.redbee.com-cert.pem
+	peer channel create -o orderer.redbee.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/redbee.com/msp/tlscacerts/tlsca.redbee.com-cert.pem
 
 
 ## Unirse al canal
@@ -156,8 +156,7 @@ Tanto sea un chaincode Java o Go
 
 ## instálo en las organizaciones
 
-Por cada organizacion instalamos el chaincode, cada ejecución obtendremos un id con esta forma **java-bee-manager_1.1:8a4742392b0de102d2b2e1dc6e9a84e6d2767018de16532fbdfe77918951a050
-** ese id lo deberiamos exportar de la siguiente manera
+Por cada organizacion instalamos el chaincode, cada ejecución obtendremos un id con esta forma **java-bee-manager_1.1:8a4742392b0de102d2b2e1dc6e9a84e6d2767018de16532fbdfe77918951a050** ese id lo deberiamos exportar de la siguiente manera
 export CHAINCODE_ID="java-bee-manager_1.1:3b4395875549e7ed8d372877d3f36d050a43c058f7cbb3a0e71d663ea3493673"
 
 
