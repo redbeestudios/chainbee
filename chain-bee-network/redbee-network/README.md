@@ -194,10 +194,13 @@ Guardamos la transaccion en la BlockChain
 ## Probar chaincode
 *Work inProgress*
 
-peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["Set", "did:7", "ricardo", "banana"]}'
+peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["createBee", "1", "Ned Flanders", "SSr"]}'
 
+peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","1"]}'
 
-peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["Query","did:7"]}'
+peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "1", "Sr 1", "Reverendo Alegria", "Proyecto X"]}'
+
+peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBeeHistory","1"]}'
 
 
 # Material
