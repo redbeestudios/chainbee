@@ -129,12 +129,12 @@ Entrar a la consola de la cli
 
 Generamos el build de chaincode/BeeManager
 
-	./gradlew installDist (hacerlo por fuera de la cli y el resultado moverlo a redbee-network)
+	./gradlew installDist (hacerlo por fuera de la cli)
 
 El build generado se encuentra en: build/install/java-bee-manager
 Luego
 
-	export CHANNEL_NAME=chainbee && export CHAINCODE_NAME=java-bee-manager && export CHAINCODE_VERSION=1.1 && export CC_RUNTIME_LANGUAGE=java && export CC_SRC_PATH="../../../chaincode/BeeManager/build/install/java-bee-manager" && export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/redbee.com/msp/tlscacerts/tlsca.redbee.com-cert.pem
+	export CHANNEL_NAME=chainbee && export CHAINCODE_NAME=java-bee-manager && export CHAINCODE_VERSION=1.1 && export CC_RUNTIME_LANGUAGE=java && export CC_SRC_PATH="../chaincode/BeeManager/build/install/java-bee-manager" && export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/redbee.com/msp/tlscacerts/tlsca.redbee.com-cert.pem
 
 
 
@@ -145,7 +145,7 @@ En caso de contar con un chaincode en Golang solo basta con :
 	export CHAINCODE_NAME=foodcontrol
 	export CHAINCODE_VERSION=1
 	export CC_RUNTIME_LANGUAGE=golang
-	export CC_SRC_PATH="../../../chaincode/$CHAINCODE_NAME/"
+	export CC_SRC_PATH="../chaincode/$CHAINCODE_NAME/"
 	export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/redbee.com/msp/tlscacerts/tlsca.redbee.com-cert.pem
 
 
@@ -157,7 +157,7 @@ Tanto sea un chaincode Java o Go
 ## instálo en las organizaciones
 
 Por cada organizacion instalamos el chaincode, cada ejecución obtendremos un id con esta forma **java-bee-manager_1.1:8a4742392b0de102d2b2e1dc6e9a84e6d2767018de16532fbdfe77918951a050** ese id lo deberiamos exportar de la siguiente manera
-export CHAINCODE_ID="java-bee-manager_1.1:3b4395875549e7ed8d372877d3f36d050a43c058f7cbb3a0e71d663ea3493673"
+export CHAINCODE_ID="java-bee-manager_1.1:9271a6f6e86115bb8e7223692ce5cbf64b26c9f53394776ed1d01e7e2bafb469"
 
 
 	peer lifecycle chaincode install ${CHAINCODE_NAME}.tar.gz
@@ -192,15 +192,26 @@ Guardamos la transaccion en la BlockChain
 
 
 ## Probar chaincode
-*Work inProgress*
+
+Capital Humano crea el aasset:
 
 peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["createBee", "1", "Ned Flanders", "SSr"]}'
 
+Capital Humano Consulta aasset:
+
 peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","1"]}'
 
-peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "1", "Sr 1", "Reverendo Alegria", "Proyecto X"]}'
+Managment lo actualiza:
 
-peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBeeHistory","1"]}'
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/users/Admin@management.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.management.redbee.com:7051 CORE_PEER_LOCALMSPID="ManagementMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/peers/peer0.management.redbee.com/tls/ca.crt peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}'
+
+Finanzas consulta:
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt  peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}' peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","1"]}'
+
+Finanzas Consulta el historial:
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt  peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}' peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBeeHistory","1"]}'
 
 
 # Material
