@@ -1,0 +1,41 @@
+# Copyright Business Blockchain www.blockchainempresarial.com. All Rights Reserved.
+# Autor: Ricardo Ruano, ricardo@blockchainempresarial.com
+# Date: 20-08-2020
+# SPDX-License-Identifier: Apache-2.0
+#
+OrdererOrgs:
+    - Name: Orderer
+      Domain: redbee.com
+      EnableNodeOUs: true
+      Specs:
+        - Hostname: orderer
+          SANS:
+            - localhost
+PeerOrgs:
+    - Name: CapitalHumano
+      Domain: capitalHumano.redbee.com
+      EnableNodeOUs: true
+      Template:
+        Count: 1
+        SANS:
+          - localhost
+      Users:
+        Count: 1
+    - Name: Finanzas
+      Domain: finanzas.redbee.com
+      EnableNodeOUs: true
+      Template:
+        Count: 1
+        SANS:
+          - localhost
+      Users:
+        Count: 1
+    - Name: Management
+      Domain: management.redbee.com
+      EnableNodeOUs: true    
+      Template:
+        Count: 1
+        SANS:
+          - localhost
+      Users:
+        Count: 1

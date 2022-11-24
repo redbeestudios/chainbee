@@ -1,0 +1,22 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: chainbee-app
+
+path:
+  crypto: "../redbee-network/crypto-config/peerOrganizations/capitalHumano.redbee.com"
+  key-dir: "users/User1@capitalHumano.redbee.com/msp/keystore"
+
+channel-connection:
+  peer-endpoint: "localhost:7051"
+  override-auth: "peer0.capitalHumano.redbee.com"
+  tls-cert-path: "peers/peer0.capitalHumano.redbee.com/tls/ca.crt"
+
+identity:
+  msp-id: "CapitalHumanoMSP"
+  cert-path: "users/User1@capitalHumano.redbee.com/msp/signcerts/User1@capitalHumano.redbee.com-cert.pem"
+
+network:
+  channel: "chainbee"
+  chaincode: "java-bee-manager"
