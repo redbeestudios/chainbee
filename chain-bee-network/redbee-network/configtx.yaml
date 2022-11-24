@@ -1,0 +1,242 @@
+# Copyright Business Blockchain www.blockchainempresarial.com. All Rights Reserved.
+# Autor: Ricardo Ruano, ricardo@blockchainempresarial.com
+# Date: 20-08-2020
+# SPDX-License-Identifier: Apache-2.0
+#
+---
+    ################################################################################
+    #   Section: Organizations
+    ################################################################################
+    Organizations:
+    
+        - &OrdererOrg
+            Name: OrdererOrg
+            ID: OrdererMSP
+            MSPDir: crypto-config/ordererOrganizations/redbee.com/msp
+            Policies:
+                Readers:
+                    Type: Signature
+                    Rule: "OR('OrdererMSP.member')"
+                Writers:
+                    Type: Signature
+                    Rule: "OR('OrdererMSP.member')"
+                Admins:
+                    Type: Signature
+                    Rule: "OR('OrdererMSP.admin')"
+            OrdererEndpoints:
+                - orderer.redbee.com:7050
+    
+        - &CapitalHumano
+            Name: CapitalHumanoMSP
+            ID: CapitalHumanoMSP
+            MSPDir: crypto-config/peerOrganizations/capitalHumano.redbee.com/msp
+            Policies:
+                Readers:
+                    Type: Signature
+                    Rule: "OR('CapitalHumanoMSP.admin', 'CapitalHumanoMSP.peer', 'CapitalHumanoMSP.client')"
+                Writers:
+                    Type: Signature
+                    Rule: "OR('CapitalHumanoMSP.admin', 'CapitalHumanoMSP.client')"
+                Admins:
+                    Type: Signature
+                    Rule: "OR('CapitalHumanoMSP.admin')"
+                Endorsement:
+                    Type: Signature
+                    Rule: "OR('CapitalHumanoMSP.peer')"
+            AnchorPeers:
+                - Host: peer0.capitalHumano.redbee.com
+                  Port: 7051
+    
+        - &Finanzas
+            Name: FinanzasMSP
+            ID: FinanzasMSP
+            MSPDir: crypto-config/peerOrganizations/finanzas.redbee.com/msp
+            Policies:
+                Readers:
+                    Type: Signature
+                    Rule: "OR('FinanzasMSP.admin', 'FinanzasMSP.peer', 'FinanzasMSP.client')"
+                Writers:
+                    Type: Signature
+                    Rule: "OR('FinanzasMSP.admin', 'FinanzasMSP.client')"
+                Admins:
+                    Type: Signature
+                    Rule: "OR('FinanzasMSP.admin')"
+                Endorsement:
+                    Type: Signature
+                    Rule: "OR('FinanzasMSP.peer')"
+            AnchorPeers:
+                - Host: peer0.finanzas.redbee.com
+                  Port: 7051
+    
+        - &Management
+            Name: ManagementMSP
+            ID: ManagementMSP
+            MSPDir: crypto-config/peerOrganizations/management.redbee.com/msp
+            Policies:
+                Readers:
+                    Type: Signature
+                    Rule: "OR('ManagementMSP.admin', 'ManagementMSP.peer', 'ManagementMSP.client')"
+                Writers:
+                    Type: Signature
+                    Rule: "OR('ManagementMSP.admin', 'ManagementMSP.client')"
+                Admins:
+                    Type: Signature
+                    Rule: "OR('ManagementMSP.admin')"
+                Endorsement:
+                    Type: Signature
+                    Rule: "OR('ManagementMSP.peer')"
+            AnchorPeers:
+                - Host: peer0.management.redbee.com
+                  Port: 7051
+    ################################################################################
+    #   SECTION: Capabilities
+    ################################################################################
+    Capabilities:
+        Channel: &ChannelCapabilities
+            V2_0: true
+    
+        Orderer: &OrdererCapabilities
+            V2_0: true
+    
+        Application: &ApplicationCapabilities
+            V2_0: true        
+    
+    ################################################################################
+    #   SECTION: Application
+    ################################################################################
+    Application: &ApplicationDefaults
+    
+        # Organizations is the list of orgs which are defined as participants on
+        # the application side of the network
+        Organizations:
+    
+        # Policies defines the set of policies at this level of the config tree
+        # For Application policies, their canonical path is
+        #   /Channel/Application/<PolicyName>
+        Policies:
+            Readers:
+                Type: ImplicitMeta
+                Rule: "ANY Readers"
+            Writers:
+                Type: ImplicitMeta
+                Rule: "ANY Writers"
+            Admins:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Admins"
+            LifecycleEndorsement:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Endorsement"
+            Endorsement:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Endorsement"
+    
+        Capabilities:
+            <<: *ApplicationCapabilities    
+    
+    ################################################################################
+    #   SECTION: Orderer
+    ################################################################################
+    Orderer: &OrdererDefaults
+        # Orderer Type: The orderer implementation to start
+        OrdererType: solo
+    
+    #    OrdererType: etcdraft
+    
+        EtcdRaft:
+            Consenters:
+            - Host: orderer.redbee.com
+              Port: 7050
+              ClientTLSCert: ../organizations/ordererOrganizations/redbee.com/orderers/orderer.redbee.com/tls/server.crt
+              ServerTLSCert: ../organizations/ordererOrganizations/redbee.com/orderers/orderer.redbee.com/tls/server.crt
+    
+        Addresses:
+            - orderer.redbee.com:7050
+        BatchTimeout: 2s
+        BatchSize:
+            MaxMessageCount: 10
+            AbsoluteMaxBytes: 99 MB
+            PreferredMaxBytes: 512 KB
+    
+        Kafka:
+            Brokers:
+                - 127.0.0.1:9092
+        Organizations:
+    
+        Policies:
+            Readers:
+                Type: ImplicitMeta
+                Rule: "ANY Readers"
+            Writers:
+                Type: ImplicitMeta
+                Rule: "ANY Writers"
+            Admins:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Admins"
+            # BlockValidation specifies what signatures must be included in the block
+            # from the orderer for the peer to validate it.
+            BlockValidation:
+                Type: ImplicitMeta
+                Rule: "ANY Writers"
+    
+    ################################################################################
+    #
+    #   CHANNEL
+    #
+    #   This section defines the values to encode into a config transaction or
+    #   genesis block for channel related parameters.
+    #
+    ################################################################################
+    Channel: &ChannelDefaults
+        # Policies defines the set of policies at this level of the config tree
+        # For Channel policies, their canonical path is
+        #   /Channel/<PolicyName>
+        Policies:
+            # Who may invoke the 'Deliver' API
+            Readers:
+                Type: ImplicitMeta
+                Rule: "ANY Readers"
+            # Who may invoke the 'Broadcast' API
+            Writers:
+                Type: ImplicitMeta
+                Rule: "ANY Writers"
+            # By default, who may modify elements at this config level
+            Admins:
+                Type: ImplicitMeta
+                Rule: "MAJORITY Admins"
+    
+        # Capabilities describes the channel level capabilities, see the
+        # dedicated Capabilities section elsewhere in this file for a full
+        # description
+        Capabilities:
+            <<: *ChannelCapabilities
+    
+    ################################################################################
+    #   Profile
+    ################################################################################
+    Profiles:
+    
+        ThreeOrgsOrdererGenesis:
+            <<: *ChannelDefaults
+            Orderer:
+                <<: *OrdererDefaults
+                Organizations:
+                    - *OrdererOrg
+                Capabilities:
+                    <<: *OrdererCapabilities
+            Consortiums:
+                SampleConsortium:
+                    Organizations:
+                        - *CapitalHumano
+                        - *Finanzas
+                        - *Management
+        ThreeOrgsChannel:
+            Consortium: SampleConsortium
+            <<: *ChannelDefaults
+            Application:
+                <<: *ApplicationDefaults
+                Organizations:
+                    - *CapitalHumano
+                    - *Finanzas
+                    - *Management
+                Capabilities:
+                    <<: *ApplicationCapabilities
