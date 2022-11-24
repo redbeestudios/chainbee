@@ -195,23 +195,23 @@ Guardamos la transaccion en la BlockChain
 
 Capital Humano crea el aasset:
 
-peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["createBee", "1", "Ned Flanders", "SSr"]}'
+peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["createBee", "4", "Ned Flanders", "SSr"]}'
 
 Capital Humano Consulta aasset:
 
-peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","1"]}'
+peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","4"]}'
 
 Managment lo actualiza:
 
-CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/users/Admin@management.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.management.redbee.com:7051 CORE_PEER_LOCALMSPID="ManagementMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/peers/peer0.management.redbee.com/tls/ca.crt peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}'
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/users/Admin@management.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.management.redbee.com:7051 CORE_PEER_LOCALMSPID="ManagementMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/management.redbee.com/peers/peer0.management.redbee.com/tls/ca.crt peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "4"]}'
 
 Finanzas consulta:
 
-CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt  peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}' peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","1"]}'
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt  peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}' peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBee","4"]}'
 
 Finanzas Consulta el historial:
 
-CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt  peer chaincode invoke -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["managementUpdate", "Sr 1", "Reverendo Alegria", "Proyecto X", "1"]}' peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBeeHistory","1"]}'
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/users/Admin@finanzas.redbee.com/msp/ CORE_PEER_ADDRESS=peer0.finanzas.redbee.com:7051 CORE_PEER_LOCALMSPID="FinanzasMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/finanzas.redbee.com/peers/peer0.finanzas.redbee.com/tls/ca.crt peer chaincode query -o orderer.redbee.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": ["getBeeHistory","4"]}'
 
 
 # Material
